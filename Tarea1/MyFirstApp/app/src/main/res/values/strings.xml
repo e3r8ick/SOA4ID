@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My First App</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="text_value">0</string>
+    <string name="text_view_content">Hello i´m a text view</string>
+    <string name="activity_main_text_view_greeting">Welcome %1$s %2$s</string>
+    <string name="button_share">Share</string>
+</resources>

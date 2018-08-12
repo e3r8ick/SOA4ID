@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_view_content">Hola soy un text view</string>
+    <string name="activity_main_text_view_greeting">Bienvenido %1$s %2$s</string>
+    <string name="button_share">Compartir</string>
+</resources>

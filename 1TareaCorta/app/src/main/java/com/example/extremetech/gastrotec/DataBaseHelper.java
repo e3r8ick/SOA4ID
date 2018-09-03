@@ -29,7 +29,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         String selection = "ID" + " = ?";
         String[] selectionArgs = { String.valueOf(id) };
 
-        String [] sqlSelect = {"ID", "NAME", "EMAIL", "CAREER", "TYPE"};
+        String [] sqlSelect = {"ID", "NAME", "EMAIL", "CAREER"};
         String sqlTable = "STUDENTS";
 
         qb.setTables(sqlTable);

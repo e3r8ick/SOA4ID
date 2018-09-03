@@ -25,7 +25,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
             //create student
             mStudent = new Student(student.getString(1), student.getString(3),
                     Integer.parseInt(student.getString(0)),student.getString(2),
-                    Integer.parseInt(student.getString(5)));
+                    0);
             Log.d("usuario",student.getString(0));
         }
     }

@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private EditText mNameView;
-    private EditText mCareerView;
     private EditText mIdView;
     private View mProgressView;
     private View mLoginFormView;
@@ -190,6 +188,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             setmAuthTask(new UserLoginTask(id, password));
             getmAuthTask().execute((Void) null);
+            goBegin(this.mLoginFormView);
+
         }
     }
 
@@ -313,6 +313,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     public void goRegister(View v) {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void goBegin(View v) {
+        Intent intent = new Intent(this, BeginActivity.class);
         startActivity(intent);
 
     }

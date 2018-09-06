@@ -19,36 +19,56 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
     public SharedPreferences mPrefs;
 
 
-    UserLoginTask(){
+    /**
+     * constructor
+     */
+    UserLoginTask() {
 
     }
+
+    /**
+     * método par iniciar sesión
+     *
+     * @param id
+     * @param password
+     * @return true si si funcionó, null si hubo error, wrong si la contraseña es incorrecta
+     */
     public String LoginTask(String id, String password) {
         //call database
         String retValue = "";
         mDataBase = new DataBaseHelper(LoginActivity.getmContext());
         Cursor student = mDataBase.getStudent(Integer.parseInt(id));
-        if(student.isNull(0)){
+        if (student.isNull(0)) {
             retValue = "null";
-        }else if(!password.equals(student.getString(4))) {
+        } else if (!password.equals(student.getString(4))) {
             retValue = "wrong";
-        }else {
+        } else {
             //create student
             mStudent = new Student(student.getString(1), student.getString(3),
-                    Integer.parseInt(student.getString(0)),student.getString(2),
+                    Integer.parseInt(student.getString(0)), student.getString(2),
                     Integer.parseInt(student.getString(5)));
-            Log.d("usuario",student.getString(0));
+            Log.d("usuario", student.getString(0));
             retValue = "true";
         }
         return retValue;
     }
 
-    public Student UserRegisterTask(String id, String name, String email, String career, String password){
+    /**
+     * registra un nuevo usuario
+     *
+     * @param id
+     * @param name
+     * @param email
+     * @param career
+     * @param password
+     * @return el nuevo student
+     */
+    public Student UserRegisterTask(String id, String name, String email, String career, String password) {
         boolean addStudent = mDataBase.addStudent(name, career, id, email, password); // you would not typically call this on the main thread
         Log.d("insert student", String.valueOf(addStudent));
         if (!addStudent) {
             Toast.makeText(LoginActivity.getmContext(), "@strings/error_invalid", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             mStudent = new Student(name, career, Integer.parseInt(id), email, 1);
         }
 
@@ -58,7 +78,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Void... params) {
-        /*// TODO: attempt authentication against a network service.
+        /*//
 
         try {
             // Simulate network access.
@@ -75,7 +95,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
             }
         }
 
-        // TODO: register the new account here.*/
+        // */
         return true;
     }
 

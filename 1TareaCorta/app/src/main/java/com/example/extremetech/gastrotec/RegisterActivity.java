@@ -47,7 +47,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -68,14 +67,29 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private DataBaseHelper mDataBase;
     private static Context mContext;
 
+    /**
+     * get del context
+     *
+     * @return context
+     */
     public static Context getmContext() {
         return mContext;
     }
 
+    /**
+     * set del context
+     *
+     * @param mContext
+     */
     public static void setmContext(Context mContext) {
         RegisterActivity.mContext = mContext;
     }
 
+    /**
+     * constructor
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +97,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.register_activity_email);
         populateAutoComplete();
-        mNameView =  findViewById(R.id.register_activity_name);
-        mCareerView =  findViewById(R.id.register_activity_career);
-        mIdView =  findViewById(R.id.register_activity_id);
+        mNameView = findViewById(R.id.register_activity_name);
+        mCareerView = findViewById(R.id.register_activity_career);
+        mIdView = findViewById(R.id.register_activity_id);
 
         mPasswordView = (EditText) findViewById(R.id.register_activity_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -114,6 +128,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mDataBase = new DataBaseHelper(this);
     }
 
+    /**
+     * autocompletador
+     */
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -122,6 +139,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         getLoaderManager().initLoader(0, null, this);
     }
 
+    /**
+     * reques de contactos
+     *
+     * @return true o false
+     */
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -164,7 +186,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * errors are presented and no actual login attempt is made.
      */
     private void attemptRegister() {
-        Log.d("intento de ","si");
+        Log.d("intento de ", "si");
         if (mAuthTask != null) {
             return;
         }
@@ -242,12 +264,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -320,6 +340,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
     }
 
+    /**
+     * método par ir al inicio
+     *
+     * @param v
+     */
     public void goBegin(View v) {
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
@@ -328,10 +353,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         String career = mCareerView.getText().toString();
         String id = mIdView.getText().toString();
         mAuthTask = new UserLoginTask();
-        mAuthTask.UserRegisterTask(id,name,email,career,password);
-        Log.d("registramiento","si");
-        mAuthTask.LoginTask(id,password);
-        Log.d("iniciamiento","si");
+        mAuthTask.UserRegisterTask(id, name, email, career, password);
+        Log.d("registramiento", "si");
+        mAuthTask.LoginTask(id, password);
+        Log.d("iniciamiento", "si");
         mAuthTask.execute((Void) null);
         Intent intent = new Intent(this, BeginActivity.class);
         startActivity(intent);

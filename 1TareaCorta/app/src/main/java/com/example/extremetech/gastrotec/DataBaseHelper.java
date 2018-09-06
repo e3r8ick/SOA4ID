@@ -10,16 +10,26 @@ import android.util.Log;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 
-
 public class DataBaseHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "gastrotec.db";
     private static final int DATABASE_VERSION = 1;
 
+    /**
+     * constructor
+     *
+     * @param context
+     */
     public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Método para consultar la base de datos por estudiantes
+     *
+     * @param id
+     * @return cursos con las datos del estudiante
+     */
     public Cursor getStudent(int id) {
 
         SQLiteDatabase db = getReadableDatabase();
@@ -27,9 +37,9 @@ public class DataBaseHelper extends SQLiteAssetHelper {
 
         // Filter results WHERE
         String selection = "ID" + " = ?";
-        String[] selectionArgs = { String.valueOf(id) };
+        String[] selectionArgs = {String.valueOf(id)};
 
-        String [] sqlSelect = {"ID", "NAME", "EMAIL", "CAREER","HASH", "TYPE"};
+        String[] sqlSelect = {"ID", "NAME", "EMAIL", "CAREER", "HASH", "TYPE"};
         String sqlTable = "STUDENTS";
 
         qb.setTables(sqlTable);
@@ -41,6 +51,16 @@ public class DataBaseHelper extends SQLiteAssetHelper {
 
     }
 
+    /**
+     * Metodo para agragar un estudiante nuevo a la base da datos
+     *
+     * @param name
+     * @param career
+     * @param id
+     * @param email
+     * @param hash
+     * @return si se pudo hacer o no
+     */
     public boolean addStudent(String name, String career, String id, String email, String hash) {
 
         Boolean flag = true;
@@ -55,9 +75,9 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         values.put("CAREER", career);
         values.put("HASH", hash);
 
-        Long error = db.insert(sqlTables,null,values);
-        Log.d("numero de insersion",String.valueOf(error));
-        if(error == -1){
+        Long error = db.insert(sqlTables, null, values);
+        Log.d("numero de insersion", String.valueOf(error));
+        if (error == -1) {
             flag = false;
         }
         return flag;

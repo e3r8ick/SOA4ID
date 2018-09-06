@@ -22,6 +22,12 @@ public class BeginActivity extends AppCompatActivity {
     Toolbar mToolbar;
     ActionBar mActionBar;
 
+
+    /**
+     * contructor
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,12 @@ public class BeginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * constructor de menú
+     *
+     * @param menu
+     * @return si se crea o no
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,6 +67,11 @@ public class BeginActivity extends AppCompatActivity {
         return true;
     }
 
+    /***
+     * Handdler para los setings
+     * @param item
+     * @return si se selecciona o no
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -65,6 +82,11 @@ public class BeginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Handler para el menu lateral
+     *
+     * @param navigationView
+     */
     private void setupNavigationDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -72,25 +94,25 @@ public class BeginActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                            Log.d("cambio de fragment a 1",String.valueOf(menuItem));
-                            menuItem.setChecked(true);
-                            setFragment(0);
-                            mDrawerLayout.closeDrawer(GravityCompat.START);
-                            return true;
+                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(0);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
                             case R.id.nav_profile:
-                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_config:
-                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_share:
-                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(3);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -101,6 +123,10 @@ public class BeginActivity extends AppCompatActivity {
                 });
     }
 
+    /***
+     * Para cambiar de fragment
+     * @param position
+     */
     public void setFragment(int position) {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;

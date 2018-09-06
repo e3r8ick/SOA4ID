@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     /**
      * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -66,6 +65,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private DataBaseHelper mDataBase;
     private static Context mContext;
 
+    /**
+     * constructor
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         populateAutoComplete();
-        mIdView =  findViewById(R.id.login_activity_id);
+        mIdView = findViewById(R.id.login_activity_id);
 
         mPasswordView = (EditText) findViewById(R.id.login_activity_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -102,6 +106,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mDataBase = new DataBaseHelper(this);
     }
 
+    /**
+     * autocompletar de los correos
+     */
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -190,25 +197,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // perform the user login attempt.
             setmAuthTask(new UserLoginTask());
             String login = getmAuthTask().LoginTask(id, password);
-            if(login == "true") {
+            if (login == "true") {
                 showProgress(true);
                 getmAuthTask().execute((Void) null);
                 goBegin(this.mLoginFormView);
-            }else if(login == "null"){
+            } else if (login == "null") {
                 // Compruebe si ninguna vista tiene el foco.
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
-                Toast error1 = Toast.makeText(LoginActivity.getmContext(),"@string/error_invalid_id", Toast.LENGTH_LONG);
-                error1.setGravity(Gravity.CENTER,0,0);
+                Toast error1 = Toast.makeText(LoginActivity.getmContext(), "@string/error_invalid_id", Toast.LENGTH_LONG);
+                error1.setGravity(Gravity.CENTER, 0, 0);
                 error1.show();
                 finish();
                 startActivity(getIntent());
-            }else{
+            } else {
                 // Compruebe si ninguna vista tiene el foco.
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
-                Toast error2 = Toast.makeText(LoginActivity.getmContext(),"@string/error_incorrect_password", Toast.LENGTH_LONG);
-                error2.setGravity(Gravity.CENTER,0,0);
+                Toast error2 = Toast.makeText(LoginActivity.getmContext(), "@string/error_incorrect_password", Toast.LENGTH_LONG);
+                error2.setGravity(Gravity.CENTER, 0, 0);
                 error2.show();
                 finish();
                 startActivity(getIntent());
@@ -216,6 +223,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */

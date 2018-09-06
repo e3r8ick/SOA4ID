@@ -1,4 +1,4 @@
-GatroTec
+GastroTec
 
 Para ejecutar el app se debe compilar desde Android Studio e instalarla en un dispositivo
 Android o en el simular de Android Studio

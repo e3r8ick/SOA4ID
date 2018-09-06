@@ -1,9 +1,12 @@
 package com.example.extremetech.gastrotec;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
+
 
 /**
  * Represents an asynchronous login/registration task used to authenticate
@@ -13,6 +16,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     private Student mStudent;
     private DataBaseHelper mDataBase;
+    public SharedPreferences mPrefs;
 
 
     UserLoginTask(){
@@ -40,7 +44,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     public Student UserRegisterTask(String id, String name, String email, String career, String password){
         boolean addStudent = mDataBase.addStudent(name, career, id, email, password); // you would not typically call this on the main thread
-        Log.d("insert", String.valueOf(addStudent));
+        Log.d("insert student", String.valueOf(addStudent));
         if (!addStudent) {
             Toast.makeText(LoginActivity.getmContext(), "@strings/error_invalid", Toast.LENGTH_SHORT).show();
         }

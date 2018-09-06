@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,14 +85,14 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         populateAutoComplete();
         mNameView =  findViewById(R.id.register_activity_name);
         mCareerView =  findViewById(R.id.register_activity_career);
-        mIdView =  findViewById(R.id.login_activity_id);
+        mIdView =  findViewById(R.id.register_activity_id);
 
         mPasswordView = (EditText) findViewById(R.id.register_activity_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    attemptRegister();
                     return true;
                 }
                 return false;
@@ -101,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegister();
             }
         });
 
@@ -161,7 +163,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegister() {
+        Log.d("intento de ","si");
         if (mAuthTask != null) {
             return;
         }
@@ -228,10 +231,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask();
+            /*mAuthTask = new UserLoginTask();
             mAuthTask.UserRegisterTask(id,name,email,career,password);
+            Log.d("registramiento","si");
             mAuthTask.LoginTask(id,password);
-            mAuthTask.execute((Void) null);
+            Log.d("iniciamiento","si");
+            mAuthTask.execute((Void) null);*/
+            goBegin(this.mLoginFormView);
         }
     }
 
@@ -311,6 +317,24 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
+
+    }
+
+    public void goBegin(View v) {
+        // Store values at the time of the login attempt.
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        String name = mNameView.getText().toString();
+        String career = mCareerView.getText().toString();
+        String id = mIdView.getText().toString();
+        mAuthTask = new UserLoginTask();
+        mAuthTask.UserRegisterTask(id,name,email,career,password);
+        Log.d("registramiento","si");
+        mAuthTask.LoginTask(id,password);
+        Log.d("iniciamiento","si");
+        mAuthTask.execute((Void) null);
+        Intent intent = new Intent(this, BeginActivity.class);
+        startActivity(intent);
 
     }
 

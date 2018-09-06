@@ -34,6 +34,6 @@
     <string name="nav_settings">Configuraciones</string>
     <string name="nav_share">Compartir</string>
     <!-- Fragments-->
-    <string name="home_fragment">Home Fragment</string>
-    <string name="profile_fragment">Profile fragment</string>
+    <string name="home_fragment">Inicio</string>
+    <string name="profile_fragment">Perfil</string>
 </resources>

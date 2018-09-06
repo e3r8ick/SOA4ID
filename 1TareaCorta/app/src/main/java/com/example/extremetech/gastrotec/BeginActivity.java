@@ -1,9 +1,10 @@
 package com.example.extremetech.gastrotec;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,14 +39,18 @@ public class BeginActivity extends AppCompatActivity
             }
         });*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setupNavigationDrawerContent(navigationView);
+
+        setFragment(0);
     }
 
     @Override
@@ -74,26 +79,65 @@ public class BeginActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Log.d("cambio de fragment a 1",String.valueOf(item));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    private void setupNavigationDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_home:
+                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(0);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                            case R.id.nav_profile:
+                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(1);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                            case R.id.nav_config:
+                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(2);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                            case R.id.nav_share:
+                                Log.d("cambio de fragment a 1",String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(3);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                        }
+                        return true;
+                    }
+                });
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            Log.d("cambio de fragment a 1",String.valueOf(item));
+            setFragment(0);
         } else if (id == R.id.nav_profile) {
-
+            Log.d("cambio de fragment a 1",String.valueOf(item));
+            setFragment(1);
         } else if (id == R.id.nav_config) {
-
+            Log.d("cambio de fragment a 1",String.valueOf(item));
+            setFragment(2);
         } else if (id == R.id.nav_share) {
-
+            Log.d("cambio de fragment a 1",String.valueOf(item));
+            setFragment(3);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -104,6 +148,26 @@ public class BeginActivity extends AppCompatActivity
     public void goProfile(View v) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
 
+    public void setFragment(int position) {
+        FragmentManager fragmentManager;
+        FragmentTransaction fragmentTransaction;
+        switch (position) {
+            case 0:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                HomeFragment homeFragment = new HomeFragment();
+                fragmentTransaction.replace(R.id.nav_view, homeFragment);
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                ProfileFragment profileFragment = new ProfileFragment();
+                fragmentTransaction.replace(R.id.nav_view, profileFragment);
+                fragmentTransaction.commit();
+                break;
+        }
     }
 }

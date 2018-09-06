@@ -20,15 +20,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,8 +168,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -185,24 +188,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
-            setmAuthTask(new UserLoginTask(id, password));
-            getmAuthTask().execute((Void) null);
-            goBegin(this.mLoginFormView);
+            setmAuthTask(new UserLoginTask());
+            String login = getmAuthTask().LoginTask(id, password);
+            if(login == "true") {
+                showProgress(true);
+                getmAuthTask().execute((Void) null);
+                goBegin(this.mLoginFormView);
+            }else if(login == "null"){
+                // Compruebe si ninguna vista tiene el foco.
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+                Toast error1 = Toast.makeText(LoginActivity.getmContext(),"@string/error_invalid_id", Toast.LENGTH_LONG);
+                error1.setGravity(Gravity.CENTER,0,0);
+                error1.show();
+                finish();
+                startActivity(getIntent());
+            }else{
+                // Compruebe si ninguna vista tiene el foco.
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mPasswordView.getWindowToken(), 0);
+                Toast error2 = Toast.makeText(LoginActivity.getmContext(),"@string/error_incorrect_password", Toast.LENGTH_LONG);
+                error2.setGravity(Gravity.CENTER,0,0);
+                error2.show();
+                finish();
+                startActivity(getIntent());
+            }
 
         }
     }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */

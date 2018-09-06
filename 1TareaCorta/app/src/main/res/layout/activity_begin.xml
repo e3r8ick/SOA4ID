@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -21,5 +22,24 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_begin"
         app:menu="@menu/activity_begin_drawer" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <fragment android:name="com.example.extremetech.gastrotec.ProfileFragment"
+        android:id="@+id/profile"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </LinearLayout>
+
 
 </android.support.v4.widget.DrawerLayout>

@@ -228,7 +228,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask();
+            mAuthTask.UserRegisterTask(id,name,email,career,password);
+            mAuthTask.LoginTask(id,password);
             mAuthTask.execute((Void) null);
         }
     }

@@ -15,29 +15,37 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
     private DataBaseHelper mDataBase;
 
 
-    UserLoginTask(String id, String password) {
+    UserLoginTask(){
+
+    }
+    public String LoginTask(String id, String password) {
         //call database
+        String retValue = "";
         mDataBase = new DataBaseHelper(LoginActivity.getmContext());
         Cursor student = mDataBase.getStudent(Integer.parseInt(id));
         if(student.isNull(0)){
-            Toast.makeText(LoginActivity.getmContext(),"@+id/error_invalid_id", Toast.LENGTH_SHORT).show();
+            retValue = "null";
+        }else if(!password.equals(student.getString(4))) {
+            retValue = "wrong";
         }else {
             //create student
             mStudent = new Student(student.getString(1), student.getString(3),
                     Integer.parseInt(student.getString(0)),student.getString(2),
-                    0);
+                    Integer.parseInt(student.getString(5)));
             Log.d("usuario",student.getString(0));
+            retValue = "true";
         }
+        return retValue;
     }
 
-    public Student UserRegisterTask(String id, String name, String email, String career, String password, String type){
+    public Student UserRegisterTask(String id, String name, String email, String career, String password){
         boolean addStudent = mDataBase.addStudent(name, career, id, email, password); // you would not typically call this on the main thread
         Log.d("insert", String.valueOf(addStudent));
         if (!addStudent) {
-            Toast.makeText(LoginActivity.getmContext(), "@+id/error_invalid", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.getmContext(), "@strings/error_invalid", Toast.LENGTH_SHORT).show();
         }
         else{
-            mStudent = new Student(name, career, Integer.parseInt(id), email, Integer.parseInt(type));
+            mStudent = new Student(name, career, Integer.parseInt(id), email, 1);
         }
 
         return mStudent;

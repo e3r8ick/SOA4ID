@@ -1,7 +1,7 @@
-GastroTec
+SporTec
 
 Para ejecutar el app se debe compilar desde Android Studio e instalarla en un dispositivo
 Android o en el simular de Android Studio
 
-La aplicación soporta desde la versión 15 de Android hasta la 28. Para el caso de la
-revisión se estará compilando en la versión 28 
+La aplicaciÃ³n soporta desde la versiÃ³n 15 de Android hasta la 28. Para el caso de la
+revisiÃ³n se estarÃ¡ compilando en la versiÃ³n 28 

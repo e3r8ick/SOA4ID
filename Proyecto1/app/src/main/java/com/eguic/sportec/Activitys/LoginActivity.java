@@ -1,13 +1,18 @@
-package com.eguic.sportec;
+package com.eguic.sportec.Activitys;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,11 +21,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.eguic.sportec.DataBaseManagement.DataBaseHelper;
+import com.eguic.sportec.R;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -32,15 +41,18 @@ public class LoginActivity extends AppCompatActivity{
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private static Context mContext;
+    private SharedPreferences mSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setContext(this);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.login_activity_email);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView = (EditText) findViewById(R.id.login_activity_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -52,7 +64,7 @@ public class LoginActivity extends AppCompatActivity{
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.login_activity_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,12 +129,10 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
@@ -162,6 +172,14 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
+    public SharedPreferences getSharedPref() {
+        return mSharedPref;
+    }
+
+    public void setSharedPref(SharedPreferences mSharedPref) {
+        this.mSharedPref = mSharedPref;
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -170,25 +188,26 @@ public class LoginActivity extends AppCompatActivity{
 
         private final String mEmail;
         private final String mPassword;
+        private DataBaseHelper mDataBase;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
+            mSharedPref = getSharedPreferences("sportec", Context.MODE_PRIVATE);
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
+            boolean flag = true;
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+                Cursor user = mDataBase.getStudent(mEmail);
+                SharedPreferences.Editor editor = mSharedPref.edit();
+                editor.putString("userId", user.getString(1));
+                editor.commit();
+            } catch (Exception e) {
+                flag = false;
             }
-
-            // TODO: register the new account here.
-            return true;
+            return flag;
         }
 
         @Override
@@ -197,10 +216,16 @@ public class LoginActivity extends AppCompatActivity{
             showProgress(false);
 
             if (success) {
+                //TODO llamar  a la activity perfil
+                /*Intent intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);*/
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                Toast toastError = Toast.makeText(getContext(), R.string.error_not_register, Toast.LENGTH_SHORT);
+                toastError.setGravity(Gravity.CENTER, 0, 0);
+                toastError.show();
+                /*mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.requestFocus();*/
             }
         }
 
@@ -209,6 +234,14 @@ public class LoginActivity extends AppCompatActivity{
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    public static Context getContext() {
+        return mContext;
+    }
+
+    public static void setContext(Context mContext) {
+        LoginActivity.mContext = mContext;
     }
 }
 

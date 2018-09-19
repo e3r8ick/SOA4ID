@@ -12,7 +12,7 @@ import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 public class DataBaseHelper extends SQLiteAssetHelper {
 
-    private static final String DATABASE_NAME = "gastrotec.db";
+    private static final String DATABASE_NAME = "sportec.db";
     private static final int DATABASE_VERSION = 1;
 
     /**
@@ -39,7 +39,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         String selection = "ID" + " = ?";
         String[] selectionArgs = {String.valueOf(id)};
 
-        String[] sqlSelect = {"ID", "NAME", "EMAIL", "CAREER", "HASH", "TYPE"};
+        String[] sqlSelect = {"NAME", "ID", "EMAIL", "HASH"};
         String sqlTable = "STUDENTS";
 
         qb.setTables(sqlTable);
@@ -65,7 +65,7 @@ public class DataBaseHelper extends SQLiteAssetHelper {
         String selection = "EMAIL" + " = ?";
         String[] selectionArgs = {String.valueOf(email)};
 
-        String[] sqlSelect = {"ID", "NAME", "EMAIL", "HASH"};
+        String[] sqlSelect = {"NAME", "ID", "EMAIL", "HASH"};
         String sqlTable = "STUDENTS";
 
         qb.setTables(sqlTable);

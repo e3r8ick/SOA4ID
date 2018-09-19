@@ -10,4 +10,11 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">Campo requerido</string>
     <string name="error_not_register">El usuario no está registrado</string>
+    <!--drawer menu-->
+    <string name="nav_profile">Perfil</string>
+    <string name="nav_news">Noticias</string>
+    <string name="nav_sports">Deportes</string>
+    <string name="nav_team_profile">Perfil de Equipo</string>
+    <string name="nav_challenges">Retos</string>
+    <string name="nav_log_out">Cerrar Sesión</string>
 </resources>

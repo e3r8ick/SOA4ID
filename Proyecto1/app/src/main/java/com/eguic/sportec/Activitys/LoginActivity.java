@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -180,6 +181,14 @@ public class LoginActivity extends AppCompatActivity {
         this.mSharedPref = mSharedPref;
     }
 
+    public static Context getContext() {
+        return mContext;
+    }
+
+    public  void setContext(Context mContext) {
+        this.mContext = mContext;
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -194,13 +203,16 @@ public class LoginActivity extends AppCompatActivity {
             mEmail = email;
             mPassword = password;
             mSharedPref = getSharedPreferences("sportec", Context.MODE_PRIVATE);
+            mDataBase = new DataBaseHelper(getContext());
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             boolean flag = true;
             try {
+                Log.d("carnet", "una pruebita");
                 Cursor user = mDataBase.getStudent(mEmail);
+                Log.d("carnet", user.getString(1));
                 SharedPreferences.Editor editor = mSharedPref.edit();
                 editor.putString("userId", user.getString(1));
                 editor.commit();
@@ -214,18 +226,15 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
             if (success) {
                 //TODO llamar  a la activity perfil
-                /*Intent intent = new Intent(this, ProfileActivity.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(getContext(),BeginActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 Toast toastError = Toast.makeText(getContext(), R.string.error_not_register, Toast.LENGTH_SHORT);
                 toastError.setGravity(Gravity.CENTER, 0, 0);
                 toastError.show();
-                /*mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();*/
             }
         }
 
@@ -234,14 +243,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
         }
-    }
-
-    public static Context getContext() {
-        return mContext;
-    }
-
-    public static void setContext(Context mContext) {
-        LoginActivity.mContext = mContext;
     }
 }
 

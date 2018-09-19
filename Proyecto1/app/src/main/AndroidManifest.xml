@@ -9,9 +9,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/soccer"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/soccer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -23,7 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activitys.LoginActivity"></activity>
+        <activity android:name=".Activitys.LoginActivity" />
+        <activity
+            android:name=".Activitys.BeginActivity"
+            android:label="@string/title_activity_begin"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

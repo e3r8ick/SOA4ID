@@ -9,4 +9,18 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_not_register">This user is not registered</string>
+    <!--drawer menu-->
+    <string name="nav_profile">Profile</string>
+    <string name="nav_news">News</string>
+    <string name="nav_sports">Sports</string>
+    <string name="nav_team_profile">Team Profile</string>
+    <string name="nav_challenges">Challenges</string>
+    <string name="nav_log_out">Log Out</string>
+    <string name="title_activity_begin">BeginActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

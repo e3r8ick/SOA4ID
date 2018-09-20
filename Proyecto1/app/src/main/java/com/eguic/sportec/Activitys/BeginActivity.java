@@ -94,40 +94,46 @@ public class BeginActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.nav_profile:
+                            case R.id.nav_home:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(0);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.nav_news:
+                            case R.id.nav_profile:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.nav_sports:
+                            case R.id.nav_news:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
-                            case R.id.nav_team_profile:
+                            case R.id.nav_sports:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(3);
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                return true;
+                            case R.id.nav_team_profile:
+                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
+                                menuItem.setChecked(true);
+                                setFragment(4);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_challenges:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
-                                setFragment(3);
+                                setFragment(5);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_log_out:
                                 Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
-                                setFragment(3);
+                                setFragment(6);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                         }

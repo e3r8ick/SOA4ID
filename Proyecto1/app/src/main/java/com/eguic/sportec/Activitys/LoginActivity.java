@@ -23,6 +23,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 
 import com.eguic.sportec.DataBaseManagement.DataBaseHelper;
 import com.eguic.sportec.R;
@@ -50,6 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setContext(this);
+
+        //facebook login
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_activity_email);
 
@@ -227,7 +235,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
             if (success) {
-                //TODO llamar  a la activity perfil
                 Intent intent = new Intent(getContext(),BeginActivity.class);
                 startActivity(intent);
                 finish();

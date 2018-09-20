@@ -11,6 +11,7 @@
     <string name="error_field_required">Campo requerido</string>
     <string name="error_not_register">El usuario no está registrado</string>
     <!--drawer menu-->
+    <string name="nav_home">Inicio</string>
     <string name="nav_profile">Perfil</string>
     <string name="nav_news">Noticias</string>
     <string name="nav_sports">Deportes</string>

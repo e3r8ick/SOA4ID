@@ -1,5 +1,10 @@
 package com.eguic.sportec.Activitys;
 
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -12,8 +17,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.eguic.sportec.Fragments.HomeFragment;
+import com.eguic.sportec.Fragments.LogoutFragment;
 import com.eguic.sportec.Fragments.ProfileFragment;
 import com.eguic.sportec.R;
 
@@ -38,12 +47,28 @@ public class BeginActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
 
         mActionBar = getSupportActionBar();
-        mActionBar.setHomeAsUpIndicator(R.drawable.basketball);
+        mActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Log.d("preferencias",preferences.getString("userId",""));
+
+        View headerView = navigationView.getHeaderView(0);
+        ImageView drawerImage =  headerView.findViewById(R.id.nav_header_image);
+        TextView drawerUsername = headerView.findViewById(R.id.nav_header_name);
+        TextView drawerAccount =  headerView.findViewById(R.id.nav_header_email);
+        Drawable myImage = getResources().getDrawable(R.drawable.soccer);
+        Bitmap bitmap = ((BitmapDrawable) myImage).getBitmap();
+        // Scale it to 50 x 50
+        Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 70, 70, true));
+        // Set your new, scaled drawable "d
+        drawerImage.setImageDrawable(d);
+        drawerUsername.setText("Erick");
+        drawerAccount.setText("erick@gmail.com");
+
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
         }
@@ -95,43 +120,36 @@ public class BeginActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(0);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_profile:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_news:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_sports:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(3);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_team_profile:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(4);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_challenges:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(5);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.nav_log_out:
-                                Log.d("cambio de fragment a 1", String.valueOf(menuItem));
                                 menuItem.setChecked(true);
                                 setFragment(6);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
@@ -162,6 +180,13 @@ public class BeginActivity extends AppCompatActivity {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ProfileFragment starredFragment = new ProfileFragment();
                 fragmentTransaction.replace(R.id.fragment, starredFragment);
+                fragmentTransaction.commit();
+                break;
+            case 6:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                LogoutFragment logoutFragment = new LogoutFragment();
+                fragmentTransaction.replace(R.id.fragment, logoutFragment);
                 fragmentTransaction.commit();
                 break;
         }

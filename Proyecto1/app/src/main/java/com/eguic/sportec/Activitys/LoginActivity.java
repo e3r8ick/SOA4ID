@@ -24,17 +24,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eguic.sportec.DataBaseManagement.DataBaseHelper;
 import com.eguic.sportec.DataBaseManagement.PrefUtil;
+import com.eguic.sportec.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
-
-
-import com.eguic.sportec.DataBaseManagement.DataBaseHelper;
-import com.eguic.sportec.R;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -77,9 +77,14 @@ public class LoginActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
+        if (isLoggedIn) {
+            Intent intent = new Intent(LoginActivity.this, BeginActivity.class);
+            startActivity(intent);
+        }
+
         mCallbackManager = CallbackManager.Factory.create();
 
-        LoginButton loginButton = findViewById(R.id.login_button);
+        final LoginButton loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
 
         // Callback registration
@@ -87,7 +92,22 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //save the token
-                getFacebookData(new JSONObject());
+                GraphRequest request = GraphRequest.newMeRequest(
+                        AccessToken.getCurrentAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                getFacebookData(response.getJSONObject());
+                                Log.d("usuario e", response.toString());
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link");
+                request.setParameters(parameters);
+                request.executeAsync();
+
                 //change activity
                 Intent intent = new Intent(LoginActivity.this, BeginActivity.class);
                 startActivity(intent);
@@ -100,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Log.d("tipo error",String.valueOf(exception));
+                Log.d("tipo error", String.valueOf(exception));
                 Toast toastError = Toast.makeText(getContext(), R.string.fb_login_error, Toast.LENGTH_LONG);
                 toastError.setGravity(Gravity.CENTER, 0, 0);
                 toastError.show();
@@ -166,13 +186,19 @@ public class LoginActivity extends AppCompatActivity {
             if (object.has("gender"))
                 bundle.putString("gender", object.getString("gender"));
 
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putString("Name", object.getString("first_name")+object.getString("last_name"));
+            editor.commit();
+            editor.putString("Email", object.getString("email"));
+            editor.commit();
+            Log.d("preferencias",mSharedPref.getString("name","Hiol"));
 
             mPrefUtil.saveFacebookUserInfo(object.getString("first_name"),
-                    object.getString("last_name"),object.getString("email"),
+                    object.getString("last_name"), object.getString("email"),
                     object.getString("gender"), profile_pic.toString());
 
         } catch (Exception e) {
-            Log.d( "TAGGGG","BUNDLE Exception : "+e.toString());
+            Log.d("TAGGGG", "BUNDLE Exception : " + e.toString());
         }
 
         return bundle;
@@ -286,7 +312,7 @@ public class LoginActivity extends AppCompatActivity {
         return mContext;
     }
 
-    public  void setContext(Context mContext) {
+    public void setContext(Context mContext) {
         this.mContext = mContext;
     }
 
@@ -326,7 +352,7 @@ public class LoginActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
             if (success) {
-                Intent intent = new Intent(getContext(),BeginActivity.class);
+                Intent intent = new Intent(getContext(), BeginActivity.class);
                 startActivity(intent);
                 finish();
             } else {

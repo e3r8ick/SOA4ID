@@ -6,22 +6,9 @@
     tools:context=".Fragments.HomeFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Text inside fragment"
-        android:id="@+id/textViewInboxFragment"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="159dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button change text"
-        android:id="@+id/buttonFragmentInbox"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
+    <ListView
+        android:id="@+id/home_fragment_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

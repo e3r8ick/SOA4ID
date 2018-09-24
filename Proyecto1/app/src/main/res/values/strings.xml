@@ -13,6 +13,11 @@
     <string name="facebook_app_id">1850787681668057</string>
     <string name="fb_login_protocol_scheme">fb1850787681668057</string>
     <string name="fb_login_error">Error trying to login wirh Facebook</string>
+    <!-- Strings related to logout -->
+    <string name="logout_tittle">Log Out</string>
+    <string name="logout_message">Would you like to logout?</string>
+    <string name="logout_yes">Yes</string>
+    <string name="logout_no">No</string>
     <!--drawer menu-->
     <string name="nav_home">Home</string>
     <string name="nav_profile">Profile</string>

@@ -23,12 +23,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.eguic.sportec.DataBaseManagement.PrefUtil;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 
 import com.eguic.sportec.DataBaseManagement.DataBaseHelper;
 import com.eguic.sportec.R;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 
 /**
  * A login screen that offers login via email/password.
@@ -47,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private static Context mContext;
     private SharedPreferences mSharedPref;
+    private CallbackManager mCallbackManager;
+    private PrefUtil mPrefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +73,39 @@ public class LoginActivity extends AppCompatActivity {
         //facebook login
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
+
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+        mCallbackManager = CallbackManager.Factory.create();
+
+        LoginButton loginButton = findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+
+        // Callback registration
+        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                //save the token
+                getFacebookData(new JSONObject());
+                //change activity
+                Intent intent = new Intent(LoginActivity.this, BeginActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.d("tipo error",String.valueOf(exception));
+                Toast toastError = Toast.makeText(getContext(), R.string.fb_login_error, Toast.LENGTH_LONG);
+                toastError.setGravity(Gravity.CENTER, 0, 0);
+                toastError.show();
+            }
+        });
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.login_activity_email);
@@ -83,6 +132,50 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private Bundle getFacebookData(JSONObject object) {
+        Bundle bundle = new Bundle();
+
+        try {
+            String id = object.getString("id");
+            URL profile_pic;
+            try {
+                profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?type=large");
+                Log.i("profile_pic", profile_pic + "");
+                bundle.putString("profile_pic", profile_pic.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            bundle.putString("idFacebook", id);
+            if (object.has("first_name"))
+                bundle.putString("first_name", object.getString("first_name"));
+            if (object.has("last_name"))
+                bundle.putString("last_name", object.getString("last_name"));
+            if (object.has("email"))
+                bundle.putString("email", object.getString("email"));
+            if (object.has("gender"))
+                bundle.putString("gender", object.getString("gender"));
+
+
+            mPrefUtil.saveFacebookUserInfo(object.getString("first_name"),
+                    object.getString("last_name"),object.getString("email"),
+                    object.getString("gender"), profile_pic.toString());
+
+        } catch (Exception e) {
+            Log.d( "TAGGGG","BUNDLE Exception : "+e.toString());
+        }
+
+        return bundle;
     }
 
     /**
@@ -218,9 +311,7 @@ public class LoginActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             boolean flag = true;
             try {
-                Log.d("carnet", "una pruebita");
                 Cursor user = mDataBase.getStudent(mEmail);
-                Log.d("carnet", user.getString(1));
                 SharedPreferences.Editor editor = mSharedPref.edit();
                 editor.putString("userId", user.getString(1));
                 editor.commit();

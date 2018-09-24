@@ -12,6 +12,7 @@
     <!--Facebook login-->
     <string name="facebook_app_id">1850787681668057</string>
     <string name="fb_login_protocol_scheme">fb1850787681668057</string>
+    <string name="fb_login_error">Error trying to login wirh Facebook</string>
     <!--drawer menu-->
     <string name="nav_home">Home</string>
     <string name="nav_profile">Profile</string>
@@ -27,4 +28,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -10,6 +10,8 @@
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
     <string name="error_field_required">Campo requerido</string>
     <string name="error_not_register">El usuario no está registrado</string>
+    <!--Error de facebook-->
+    <string name="fb_login_error">Error tratando de iniciar sesion con Facebook</string>
     <!--drawer menu-->
     <string name="nav_home">Inicio</string>
     <string name="nav_profile">Perfil</string>

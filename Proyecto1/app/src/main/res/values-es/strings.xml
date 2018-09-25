@@ -4,7 +4,7 @@
     <!-- Strings related to login -->
     <string name="login_email">Correo</string>
     <string name="login_password">Contraseña</string>
-    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in">Iniciar Seción</string>
     <string name="error_invalid_email">El correo es invalido</string>
     <string name="error_invalid_password">La contraseña es demasido corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>

@@ -22,7 +22,7 @@ public class HomeFragment extends Fragment {
 
         ((BeginActivity) getActivity()).getSupportActionBar().setTitle("Home");
 
-        Button buttonChangeText = (Button) view.findViewById(R.id.buttonFragmentInbox);
+        /*Button buttonChangeText = (Button) view.findViewById(R.id.buttonFragmentInbox);
 
         final TextView textViewInboxFragment = (TextView) view.findViewById(R.id.textViewInboxFragment);
 
@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
+*/
         return view;
     }
 }

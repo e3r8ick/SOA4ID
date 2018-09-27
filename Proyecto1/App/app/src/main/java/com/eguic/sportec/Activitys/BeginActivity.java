@@ -25,6 +25,9 @@ import com.eguic.sportec.Fragments.HomeFragment;
 import com.eguic.sportec.Fragments.LogoutFragment;
 import com.eguic.sportec.Fragments.ProfileFragment;
 import com.eguic.sportec.R;
+import com.squareup.picasso.Picasso;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BeginActivity extends AppCompatActivity {
 
@@ -53,21 +56,18 @@ public class BeginActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Log.d("preferencias",preferences.getString("userId",""));
+
+        SharedPreferences prefs = LoadPreferences();
 
         View headerView = navigationView.getHeaderView(0);
         ImageView drawerImage =  headerView.findViewById(R.id.nav_header_image);
         TextView drawerUsername = headerView.findViewById(R.id.nav_header_name);
         TextView drawerAccount =  headerView.findViewById(R.id.nav_header_email);
-        Drawable myImage = getResources().getDrawable(R.drawable.soccer);
-        Bitmap bitmap = ((BitmapDrawable) myImage).getBitmap();
-        // Scale it to 50 x 50
-        Drawable d = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 70, 70, true));
-        // Set your new, scaled drawable "d
-        drawerImage.setImageDrawable(d);
-        drawerUsername.setText("Erick");
-        drawerAccount.setText("erick@gmail.com");
+        //imagen del eprfil
+        Picasso.get().load(prefs.getString("fb_profileURL", null)).into(drawerImage);
+        //setea los valores de face
+        drawerUsername.setText(prefs.getString("fb_first_name", null)+ " "+  prefs.getString("fb_last_name", null));
+        drawerAccount.setText(prefs.getString("fb_email", null));
 
         if (navigationView != null) {
             setupNavigationDrawerContent(navigationView);
@@ -78,6 +78,10 @@ public class BeginActivity extends AppCompatActivity {
         //First fragment
         setFragment(0);
 
+    }
+
+    private SharedPreferences LoadPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 
     /**

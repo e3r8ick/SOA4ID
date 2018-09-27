@@ -1,4 +1,4 @@
-package com.eguic.sportec.DataBaseManagement;
+package com.eguic.sportec.DataManager;
 
 import android.content.ContentValues;
 import android.content.Context;

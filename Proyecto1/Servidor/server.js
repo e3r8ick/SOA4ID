@@ -153,7 +153,7 @@ app.get("/user", function(req,res,next){
     }
 });
 
-app.post("/user/register", function(req,res,next){
+app.post("/user", function(req,res,next){
     var userEmail = req.query.email;
     var userHash = req.query.hash;
     var userName = req.query.name;

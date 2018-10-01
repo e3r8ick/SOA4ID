@@ -160,6 +160,35 @@ app.post("/user", function(req,res,next){
     if(req.query.email){
         if(req.query.hash){
             if(req.query.name){
+                var user = mongoose.model('users', userSchema);
+                user.findOneAndUpdate({ 'email': userEmail}, update, {
+                    email: userEmail,
+                    hash: userHash,
+                    name: userName
+                }, function(err, users) {
+                res.send(JSON.stringify(users))
+                })
+            }
+            else{
+                res.send(JSON.stringify("[{Empty name}]"))
+            }
+        }
+        else{
+            res.send(JSON.stringify("[{Empty hash}]"))
+        }
+    }
+    else{
+        res.send(JSON.stringify("[{Empty email}]"))
+    }
+});
+
+app.put("/user", function(req,res,next){
+    var userEmail = req.query.email;
+    var userHash = req.query.hash;
+    var userName = req.query.name;
+    if(req.query.email){
+        if(req.query.hash){
+            if(req.query.name){
                 var newUser = {
                     type: "0",
                     name: userName,
@@ -182,27 +211,18 @@ app.post("/user", function(req,res,next){
     }
 });
 
-app.post("/user", function(req,res,next){
-    try{
-        var userEmail = req.query.email;
-        var userHash = req.query.hash;
+app.delete("/user", function(req,res,next){
+    var userEmail = req.query.email;
+    if(req.query.email){
         var user = mongoose.model('users', userSchema);
-        user.find({ 'email': userEmail, 'hash': userHash }, 'name email', function (err, users) {
+        user.findOneAndRemove({ 'email': userEmail}, function (err, users) {
         if (err) return handleError(err);
         res.send(JSON.stringify(users))
         })
     }
-    catch(err){
-        res.send(JSON.stringify(err))
+    else{
+        res.send(JSON.stringify("[{Empty Email}]"))
     }
-});
-
-app.put("/user", function(req,res,next){
-    res.send("update user");
-});
-
-app.delete("/user", function(req,res,next){
-    res.send("delete user");
 });
 
 //news crud

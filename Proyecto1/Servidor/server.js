@@ -571,6 +571,7 @@ app.post("/results", function(req,res,next){
     }
 });
 
+//create result
 app.put("/results", function(req,res,next){
     var resultType = req.query.type;
     var resultInfo = req.query.info;
@@ -600,6 +601,7 @@ app.put("/results", function(req,res,next){
     }
 });
 
+//delete result
 app.delete("/results", function(req,res,next){
     var resultId = req.query.id;
     if(req.query.id){
@@ -629,14 +631,84 @@ app.get("/teams", function(req,res,next){
     }
 });
 
+//update team
 app.post("/teams", function(req,res,next){
-    res.send("create teams");
+    var teamsMembers = req.query.members.split(",");
+    var teamsName = req.query.name;
+    var teamsPicture = req.query.picture;
+    var teamsId = req.query.id;
+    if(req.query.picture){
+        if(req.query.name){
+            if(req.query.members){
+                if(req.query.id){
+                    var team = mongoose.model('teams', teamsSchema);
+                    team.findOneAndUpdate({ '_id': teamsId},{$set:{ 
+                        members: teamsMembers,
+                        name: teamsName,
+                        picture: teamsPicture}}, function(err, teams) {
+                    team.find({ '_id': teamsId}, function (err, teams) {
+                        if (err) return handleError(err);
+                        res.send(JSON.stringify(teams))
+                        })
+                    })
+                }
+                else{
+                    res.send(JSON.stringify("[{Empty ID}]"))
+                }
+            }
+            else{
+                res.send(JSON.stringify("[{Empty members}]"))
+            }
+        }
+        else{
+            res.send(JSON.stringify("[{Empty name}]"))
+        }
+    }
+    else{
+        res.send(JSON.stringify("[{Empty picture}]"))
+    }
 });
 
+//create team
 app.put("/teams", function(req,res,next){
-    res.send("update teams");
+    var teamsMembers = req.query.members.split(",");
+    var teamsName = req.query.name;
+    var teamsPicture = req.query.picture;
+    if(req.query.picture){
+        if(req.query.name){
+            if(req.query.members){
+                var newTeam = {
+                    type: "2",
+                    members: teamsMembers,
+                    name: teamsName,
+                    picture: teamsPicture
+                }
+                new teamsModel(newTeam).save();
+                res.send(JSON.stringify(newTeam))
+            }
+            else{
+                res.send(JSON.stringify("[{Empty url}]"))
+            }
+        }
+        else{
+            res.send(JSON.stringify("[{Empty info}]"))
+        }
+    }
+    else{
+        res.send(JSON.stringify("[{Empty type}]"))
+    }
 });
 
 app.delete("/teams", function(req,res,next){
-    res.send("delete teams");
+    var teamId = req.query.id;
+    if(req.query.id){
+        var team = mongoose.model('teams', teamsSchema);
+        team.findOneAndRemove({ '_id': teamId}, function (err, teams) {
+        if (err) return handleError(err);
+        res.send(JSON.stringify(teams))
+        })
+    }
+    else{
+        res.send(JSON.stringify("[{Empty ID}]"))
+    }
 });

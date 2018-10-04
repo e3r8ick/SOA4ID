@@ -25,4 +25,10 @@
     <string name="nav_team_profile">Perfil de Equipo</string>
     <string name="nav_challenges">Retos</string>
     <string name="nav_log_out">Cerrar Sesión</string>
+    <!--Profile Strings-->
+    <string name="profile_name">Nombre:</string>
+    <string name="profile_email">Correo:</string>
+    <string name="profile_team">Equipo:</string>
+    <string name="profile_sports">Deportes:</string>
+
 </resources>

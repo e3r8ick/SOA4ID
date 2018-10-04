@@ -1,33 +1,31 @@
 package com.eguic.sportec.Activitys;
 
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eguic.sportec.Fragments.ChallengesFragment;
 import com.eguic.sportec.Fragments.HomeFragment;
 import com.eguic.sportec.Fragments.LogoutFragment;
+import com.eguic.sportec.Fragments.NewsFragment;
 import com.eguic.sportec.Fragments.ProfileFragment;
+import com.eguic.sportec.Fragments.SportsFragment;
+import com.eguic.sportec.Fragments.TeamFragment;
 import com.eguic.sportec.R;
 import com.squareup.picasso.Picasso;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class BeginActivity extends AppCompatActivity {
 
@@ -184,6 +182,34 @@ public class BeginActivity extends AppCompatActivity {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 ProfileFragment starredFragment = new ProfileFragment();
                 fragmentTransaction.replace(R.id.fragment, starredFragment);
+                fragmentTransaction.commit();
+                break;
+            case 2:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                NewsFragment newsFragment = new NewsFragment();
+                fragmentTransaction.replace(R.id.fragment, newsFragment);
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                SportsFragment sportsFragment = new SportsFragment();
+                fragmentTransaction.replace(R.id.fragment, sportsFragment);
+                fragmentTransaction.commit();
+                break;
+            case 4:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                TeamFragment teamFragment = new TeamFragment();
+                fragmentTransaction.replace(R.id.fragment, teamFragment);
+                fragmentTransaction.commit();
+                break;
+            case 5:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                ChallengesFragment challengesFragment = new ChallengesFragment();
+                fragmentTransaction.replace(R.id.fragment, challengesFragment);
                 fragmentTransaction.commit();
                 break;
             case 6:

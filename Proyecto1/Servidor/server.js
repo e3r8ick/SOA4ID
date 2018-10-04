@@ -93,7 +93,8 @@ var challengesModel =mongoose.model("challenge", {
 var newsModel = mongoose.model("new", {
     type: String,
     title: String,
-    subtitle: String
+    subtitle: String,
+    sport: String
 })
 
 var teamsModel = mongoose.model("team", {
@@ -337,6 +338,15 @@ app.delete("/news", function(req,res,next){
 });
 
 //challenges crud
+app.get("/challenges/all", function(req,res,next){
+    var challenge = mongoose.model('challenges', challengesSchema);
+    challenge.find({ }, function (err, challenges) {
+    if (err) return handleError(err);
+    res.send(JSON.stringify(challenges))
+    })
+});
+
+//get challange
 app.get("/challenges", function(req,res,next){
     var challengesId = req.query.id;
     if(req.query.id){
@@ -432,6 +442,15 @@ app.delete("/challenges", function(req,res,next){
     else{
         res.send(JSON.stringify("[{Empty ID}]"))
     }
+});
+
+//sports crud
+app.get("/sports/all", function(req,res,next){
+    var sport = mongoose.model('sports', sportsSchema);
+    sport.find({}, function (err, sports) {
+    if (err) return handleError(err);
+    res.send(JSON.stringify(sports))
+    })
 });
 
 //sports crud

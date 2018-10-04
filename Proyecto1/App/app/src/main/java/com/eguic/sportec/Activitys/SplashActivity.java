@@ -1,19 +1,12 @@
 package com.eguic.sportec.Activitys;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.eguic.sportec.R;
 import com.facebook.AccessToken;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -29,10 +22,10 @@ public class SplashActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
 
-        if(isLoggedIn){
+        if (isLoggedIn) {
             Intent intent = new Intent(SplashActivity.this, BeginActivity.class);
             startActivity(intent);
-        }else {
+        } else {
 
             // Tenemos una plantilla llamada splash.xml donde mostraremos la información que queramos (logotipo, etc.)
             setContentView(R.layout.activity_splash);

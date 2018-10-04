@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eguic.sportec.DataManager.DataBaseHelper;
 import com.eguic.sportec.DataManager.PrefUtil;
 import com.eguic.sportec.R;
 import com.facebook.AccessToken;
@@ -38,16 +36,15 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.squareup.picasso.Picasso;
+import com.google.gson.JsonArray;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-
-import static android.app.PendingIntent.getActivity;
 
 /**
  * A login screen that offers login via email/password.
@@ -105,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 getFacebookData(object);
-                                Log.d("usuario",object.toString());
+                                Log.d("usuario", object.toString());
                             }
                         });
                 Bundle parameters = new Bundle();
@@ -125,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Log.e("ErrorIniciando",exception.toString());
+                Log.e("ErrorIniciando", exception.toString());
                 Toast toastError = Toast.makeText(getContext(), R.string.fb_login_error, Toast.LENGTH_LONG);
                 toastError.setGravity(Gravity.CENTER, 0, 0);
                 toastError.show();
@@ -173,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             String id = object.getString("id");
             URL profile_pic;
             try {
-                profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=70&height=70");
+                profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=100&height=100");
                 Log.i("profile_pic", profile_pic + "");
                 bundle.putString("profile_pic", profile_pic.toString());
             } catch (MalformedURLException e) {
@@ -249,6 +246,20 @@ public class LoginActivity extends AppCompatActivity {
             // perform the user login attempt.
             showProgress(true);
 
+            Ion.with(getContext())
+                    .load("http://192.168.42.100:3000/user?email=eguicoro2@gmail.com")
+                    .asJsonArray()
+                    .setCallback(new FutureCallback<JsonArray>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonArray result) {
+                            if (e == null) {
+                                Log.d("estasi2", result.toString());
+                            } else {
+                                Log.d("exceptionn", e.toString());
+                            }
+                        }
+                    });
+
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -298,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void SavePreferences(String key, String value){
+    private void SavePreferences(String key, String value) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -322,24 +333,28 @@ public class LoginActivity extends AppCompatActivity {
 
         private final String mEmail;
         private final String mPassword;
-        private DataBaseHelper mDataBase;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
-            mDataBase = new DataBaseHelper(getContext());
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            boolean flag = true;
-            try {
-                Cursor user = mDataBase.getStudent(mEmail);
-                SavePreferences("userId", user.getString(1));
-            } catch (Exception e) {
-                flag = false;
-            }
-            return flag;
+        protected Boolean doInBackground(Void... voids) {
+            Ion.with(getContext())
+                    .load("http://192.168.42.100:3000/user?email=eguicoro2@gmail.com")
+                    .asJsonArray()
+                    .setCallback(new FutureCallback<JsonArray>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonArray result) {
+                            if (e == null) {
+                                Log.d("estasi", result.toString());
+                            } else {
+                                Log.d("exceptionn", e.toString());
+                            }
+                        }
+                    });
+            return true;
         }
 
         @Override

@@ -33,8 +33,10 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <!--Profile Strings-->
+    <string name="profile_name">Name:</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_team">Teams:</string>
+    <string name="profile_sports">Sports:</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="preference_file_key" />
 </resources>

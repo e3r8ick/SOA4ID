@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +33,8 @@ public class BeginActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     Toolbar mToolbar;
     ActionBar mActionBar;
+
+    private static final int HOME_FRAGMENT_ID = 0;
 
 
     /**
@@ -73,9 +76,7 @@ public class BeginActivity extends AppCompatActivity {
 
         setupNavigationDrawerContent(navigationView);
 
-        //First fragment
-        setFragment(0);
-
+        setFragment(HOME_FRAGMENT_ID);
     }
 
     private SharedPreferences LoadPreferences() {
@@ -123,39 +124,39 @@ public class BeginActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.nav_home:
                                 menuItem.setChecked(true);
-                                setFragment(0);
+                                setFragment(HOME_FRAGMENT_ID);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_profile:
                                 menuItem.setChecked(true);
                                 setFragment(1);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_news:
                                 menuItem.setChecked(true);
                                 setFragment(2);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_sports:
                                 menuItem.setChecked(true);
                                 setFragment(3);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_team_profile:
                                 menuItem.setChecked(true);
                                 setFragment(4);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_challenges:
                                 menuItem.setChecked(true);
                                 setFragment(5);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                             case R.id.nav_log_out:
                                 menuItem.setChecked(true);
                                 setFragment(6);
                                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                                return true;
+                                break;
                         }
                         return true;
                     }
@@ -167,58 +168,36 @@ public class BeginActivity extends AppCompatActivity {
      * @param position
      */
     public void setFragment(int position) {
-        FragmentManager fragmentManager;
-        FragmentTransaction fragmentTransaction;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Fragment fragment = null;
+
         switch (position) {
             case 0:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                HomeFragment inboxFragment = new HomeFragment();
-                fragmentTransaction.replace(R.id.fragment, inboxFragment);
-                fragmentTransaction.commit();
+                fragment = new HomeFragment();
                 break;
             case 1:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                ProfileFragment starredFragment = new ProfileFragment();
-                fragmentTransaction.replace(R.id.fragment, starredFragment);
-                fragmentTransaction.commit();
+                fragment = new ProfileFragment();
                 break;
             case 2:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                NewsFragment newsFragment = new NewsFragment();
-                fragmentTransaction.replace(R.id.fragment, newsFragment);
-                fragmentTransaction.commit();
+                fragment = new NewsFragment();
                 break;
             case 3:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                SportsFragment sportsFragment = new SportsFragment();
-                fragmentTransaction.replace(R.id.fragment, sportsFragment);
-                fragmentTransaction.commit();
+                fragment = new SportsFragment();
                 break;
             case 4:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                TeamFragment teamFragment = new TeamFragment();
-                fragmentTransaction.replace(R.id.fragment, teamFragment);
-                fragmentTransaction.commit();
+                fragment = new TeamFragment();
                 break;
             case 5:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                ChallengesFragment challengesFragment = new ChallengesFragment();
-                fragmentTransaction.replace(R.id.fragment, challengesFragment);
-                fragmentTransaction.commit();
+                fragment = new ChallengesFragment();
                 break;
             case 6:
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                LogoutFragment logoutFragment = new LogoutFragment();
-                fragmentTransaction.replace(R.id.fragment, logoutFragment);
-                fragmentTransaction.commit();
+                fragment = new LogoutFragment();
                 break;
         }
+
+        fragmentTransaction.replace(R.id.fragment, fragment);
+        fragmentTransaction.commit();
+
     }
 }

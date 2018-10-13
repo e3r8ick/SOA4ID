@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,22 +20,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
     }
 
     public void takePhoto(View view){
+        Log.d("numeros","entro");
         Intent takePictureIntent = new Intent("com.eguic.tareacorta2.takePhoto");
+        Log.d("numeros",takePictureIntent.toString());
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            Log.d("numeros","entroasdasd");
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+        Log.d("numeros","salio");
     }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String stringFromJNI();
 }

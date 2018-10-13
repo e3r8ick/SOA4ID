@@ -14,21 +14,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static final String REQUEST_IMAGE_CAPTURE = "1";
-    private ActionReceiver mActionReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mActionReceiver = new ActionReceiver(this);
     }
 
-    public void takePhoto(View view) {
-        Log.d("numero","ffsrfr");
-        Intent intent = new Intent(MainActivity.this,ActionReceiver.class);
-        intent.putExtra("number",REQUEST_IMAGE_CAPTURE);
-        Log.d("numero","56156r");
-        getApplicationContext().sendBroadcast(intent);
-        //mActionReceiver.photo(this, this);
+    public void openCamera(View view) {
+        Log.d("numeros","takephoto");
+        /*Intent intent = new Intent(MainActivity.this,CameraActivity.class);
+        startActivity(intent);*/
+
+
+        Intent inntent = new Intent(MainActivity.this, ActionReceiver.class);
+        inntent.putExtra("number", REQUEST_IMAGE_CAPTURE);
+        getApplicationContext().sendBroadcast(inntent);
+        Log.d("numeros","takephotosaldia");
     }
 }

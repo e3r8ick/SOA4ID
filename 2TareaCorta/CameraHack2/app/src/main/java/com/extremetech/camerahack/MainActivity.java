@@ -1,10 +1,12 @@
 package com.extremetech.camerahack;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,17 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void takePhoto(View view){
-        Log.d("numeros","entro");
         Intent takePictureIntent = new Intent("com.extremetech.cameraapp.takePhoto");
-        Log.d("numeros",takePictureIntent.toString());
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            Log.d("numeros","entroasdasd");
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-        Log.d("numeros","salio");
-
-
-        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.extremetech.cameraapp.takePhoto");
-        startActivity(LaunchIntent);
+        getApplicationContext().sendBroadcast(takePictureIntent);
     }
 }

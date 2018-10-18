@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CameraHack</string>
+    <string name="main_button" translatable="false">CameraHack</string>
 </resources>

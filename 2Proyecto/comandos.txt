@@ -1,0 +1,53 @@
+Crear una VM
+> docker-machine create --driver virtualbox myvm1
+
+iniciar virtual machine 
+> VBoxManage startvm myvm1
+
+abrir VM en terminal
+> docker-machine ssh myvm1
+
+Conectar VM con docker
+> docker-machine env Manager
+
+Configurar el Shell
+> eval $(docker-machine env Manager)
+
+Iniciar swarm(Hacer dentro del manager)
+> docker swarm init --advertise-addr <myvm1 ip>
+
+Hacer join de un worker(dentro del manager)
+> docker swarm join-token worker
+
+Agregar worker al swarm(dentro del worker)
+docker swarm join --token SWMTKN-1-5e2vu32uobbswlxh6nqd6k71cn08otcw86l9gvtdawzr7to6ih-8jn54gd7wwr1y31jduuoox9sm 192.168.99.100:2377
+
+Borrar VM
+> docker-machine rm myvm1
+
+Salir de swarm(hacer dentro del worker)
+> docker swarm leave --force
+
+Crear servicio 
+> docker service create --replicas 3 -p 80:80 --name ubuntuSO ubuntu
+
+Revisar estado del servicio
+> docker service ls
+> docker service ps nombre
+
+Remover un servicio
+> docker service rm SERVICE
+
+Escalar los servicios 
+> docker service scale nombre=número
+
+docker service create \
+  --name=viz \
+  --publish=8081:8080/tcp \
+  --constraint=node.role==manager \
+  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  dockersamples/visualizer
+
+
+
+

@@ -5,8 +5,8 @@ Sequelize = require('sequelize');
 const sequelize = new Sequelize('postgres://jhfhtpde:VSvplyou_vBjl_uXd7Mfa1ofIDPMAP3Z@tantor.db.elephantsql.com:5432/jhfhtpde');
 
 // definimos nuestro modelo 
-const sportsModel = sequelize.define(
-	'sports',
+const usersModel = sequelize.define(
+	'users',
 	{
 		_id: {
 			type: Sequelize.UUID,
@@ -19,6 +19,13 @@ const sportsModel = sequelize.define(
 		name: {
 			type: Sequelize.STRING,
 		},
+		email: {
+			type: Sequelize.STRING,
+		},
+		hash: {
+			type: Sequelize.STRING,
+		},
+		
 	},
 	{
 		indexes: [
@@ -33,5 +40,5 @@ const sportsModel = sequelize.define(
 // exportamos nuestra conexión a la base de datos y nuestro modelo
 module.exports = {
 	db: sequelize,
-	sportsModel,
+	usersModel,
 };

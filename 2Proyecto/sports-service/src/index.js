@@ -39,13 +39,13 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
     const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 	// definimos la URL `/graphql` que usa los middlewares `body-parser` y el `graphqlExpress`// usando el esquema ejecutable que creamos
-	app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
+	app.use('/sports', bodyParser.json(), graphqlExpress({ schema }));
 
     // si no estamos en producción
     if (NODE_ENV !== 'production') {
 		// usamos el middleware `graphiqlExpress` para crear la URL `/ide` donde cargamos GraphiQL// este IDE va a consumir datos de la URL `/graphql` que creamos antes y `/subscriptions`
-		app.use('/sports', graphiqlExpress({
-			endpointURL: '/graphql',
+		app.use('/graphiql', graphiqlExpress({
+			endpointURL: '/sports',
 		}));
 	}
 

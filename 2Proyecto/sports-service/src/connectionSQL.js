@@ -19,6 +19,7 @@ const sportsModel = sequelize.define(
 		name: {
 			type: Sequelize.STRING,
 		},
+		
 	},
 	{
 		indexes: [

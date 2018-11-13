@@ -27,7 +27,6 @@ export default {
     updateNews: async (parent, args, { News }) => {
       console.log(args);
       const news = await News.find(args);
-      const news = await News(args).save();
       news._id = news._id.toString();
       news.title = args.title;
       news.subtitle = args.subtitle;

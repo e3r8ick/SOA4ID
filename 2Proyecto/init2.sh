@@ -39,7 +39,11 @@ function setup-swarm {
 
   docker run -d -p 5001:8080 jenkinsci/blueocean
 
-  
+  docker run -d -p 5002:3000 darkventus/news-service
+
+  docker run -d -p 5003:3001 darkventus/users-service
+
+  docker run -d -p 5004:3002 darkventus/sports-service
 }
 
 function setup-images {

@@ -28,7 +28,6 @@ const resolvers = {
       updateSport: async (parent, args, { Sports }) => {
         console.log(args);
         const sports = await Sports.find(args);
-        const sports = await Sports(args).save();
         sports._id = sports._id.toString();
         sports.name = args.name;
         return sports;

@@ -22,18 +22,17 @@ const resolvers = {
         console.log(args);
         const user = await Users.find(args);
         return user;
-      },
-      Mutation: {
-        updateUsers: async (parent, args, { Userss }) => {
-          console.log(args);
-          const users = await Userss.find(args);
-          const users = await Userss(args).save();
-          users._id = users._id.toString();
-          users.name = args.name;
-          users.hash = args.hash;
-          users.email = args.email;
-          return users;
-        }
+      }
+    },
+    Mutation: {
+      updateUser: async (parent, args, { Userss }) => {
+        console.log(args);
+        const users = await Userss.find(args);
+        users._id = users._id.toString();
+        users.name = args.name;
+        users.hash = args.hash;
+        users.email = args.email;
+        return users;
       }
     }
   }

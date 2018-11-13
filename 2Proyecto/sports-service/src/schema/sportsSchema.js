@@ -12,6 +12,7 @@ module.exports = `
   type Mutation {
     createSport(name: String!): sports!
     getSport(name: String!): sports!
+    updateSport(name: String!,_id: String!): sports!
   }
 
 `;

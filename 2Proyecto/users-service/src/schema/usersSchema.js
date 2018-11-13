@@ -14,6 +14,7 @@ module.exports = `
   type Mutation {
     createUser(name: String!,email: String!,hash: String!): users!
     getUser(email: String!): users!
+    updateUser(name: String!,email: String!,hash: String!, _id: String!): users!
   }
 
 `;

@@ -4,6 +4,9 @@ Crear una VM
 iniciar virtual machine 
 > VBoxManage startvm myvm1
 
+DETENER VM
+> VBoxManage controlvm manager savestate
+
 abrir VM en terminal
 > docker-machine ssh myvm1
 
@@ -21,6 +24,9 @@ Hacer join de un worker(dentro del manager)
 
 Agregar worker al swarm(dentro del worker)
 docker swarm join --token SWMTKN-1-5e2vu32uobbswlxh6nqd6k71cn08otcw86l9gvtdawzr7to6ih-8jn54gd7wwr1y31jduuoox9sm 192.168.99.100:2377
+
+Deploy del API
+> docker stack deploy -c docker-compose.yml sportec
 
 Borrar VM
 > docker-machine rm myvm1
@@ -41,13 +47,10 @@ Remover un servicio
 Escalar los servicios 
 > docker service scale nombre=número
 
-docker service create \
-  --name=viz \
-  --publish=8081:8080/tcp \
-  --constraint=node.role==manager \
-  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
-  dockersamples/visualizer
-
+Borrar todos los containers 
+> docker ps -aq
+> docker stop $(docker ps -aq)
+> docker rm $(docker ps -aq)
 
 
 

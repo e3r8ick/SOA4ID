@@ -22,5 +22,17 @@ export default {
       const news = await News.find(args);
       return news;
     }
+  },
+  Mutation: {
+    updateNews: async (parent, args, { News }) => {
+      console.log(args);
+      const news = await News.find(args);
+      const news = await News(args).save();
+      news._id = news._id.toString();
+      news.title = args.title;
+      news.subtitle = args.subtitle;
+      news.sport = args.sport;
+      return news;
+    }
   }
 }

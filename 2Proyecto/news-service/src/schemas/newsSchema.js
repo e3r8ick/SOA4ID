@@ -14,6 +14,7 @@ export default `
   type Mutation {
     createNews(title: String!, subtitle: String!, sport: String!): news!
     getNews(title: String!): news!
+    updateNews(_id: String!,title: String!, subtitle: String!, sport: String!): news!
   }
 
 `;

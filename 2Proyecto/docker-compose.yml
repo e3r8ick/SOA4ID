@@ -52,3 +52,16 @@ services:
         condition: on-failure
     ports:
       - "3003:8080"
+  update-service:
+    # replace username/repo:tag with your name and image details
+    image: jenkinsci/blueocean
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 500M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "3004:8080"

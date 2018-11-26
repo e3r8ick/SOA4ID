@@ -1,0 +1,66 @@
+http:
+  port: 8080
+admin:
+  port: 9876
+  hostname: localhost
+apiEndpoints:
+  news-api:
+    host: localhost
+    paths: '/news/:info'
+  sports-api:
+    host: localhost
+    paths: '/sports/:info'
+  users-api:
+    host: localhost
+    paths: '/users/:info'
+serviceEndpoints:
+  news-service:
+    #url: 'http://192.168.99.100:5001/graphiql'
+    url: 'http://localhost:3000/graphiql'
+  sports-service:
+    url: 'http://localhost:3002/graphiql'
+    #url: 'http://192.168.99.100:5002/graphiql'
+  users-service:
+    url: 'http://localhost:3001/graphiql'
+    #url: 'http://192.168.99.100:5003/graphiql'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  news-api:
+    apiEndpoints:
+      - news-api
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      #- key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: news-service
+              changeOrigin: true
+  sports-api:
+    apiEndpoints:
+      - sports-api
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      #- key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: sports-service
+              changeOrigin: true
+  users-api:
+    apiEndpoints:
+      - users-api
+    policies:
+    # Uncomment `key-auth:` when instructed to in the Getting Started guide.
+      #- key-auth:
+      - proxy:
+          - action:
+              serviceEndpoint: users-service
+              changeOrigin: true
+#0wYrq8qviIuoE9XtQTeajt:69JYalBgTgcQEY9nAEyCWV

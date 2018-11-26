@@ -1,0 +1,23 @@
+Jenkinsfile (Declarative Pipeline)
+pipeline { 
+    agent any 
+    stages {
+        stage('Build') { 
+            steps { 
+                sh 'make' 
+                //docker stack deploy -c docker-compose.yml sportec
+            }
+        }
+        stage('Test'){
+            steps {
+                sh 'make check'
+                junit 'reports/**/*.xml' 
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'make publish'
+            }
+        }
+    }
+}

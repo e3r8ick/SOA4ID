@@ -23,6 +23,7 @@ var server = app.listen(3006, function(){
   console.log("App escuchando en http://%s:%s",host,port);
 })
 
+
 app.get('/face', function(req,res) {
 	var photoURL = req.query.photo;
 	// Request parameters.
@@ -50,7 +51,7 @@ app.get('/face', function(req,res) {
 		//let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
 		let jsonResponseArray = JSON.parse(body)
 		//console.log(jsonResponseArray.length)
-		//res.send(jsonResponse);
+		//res.send(jsonResponseArray);
 
 		var nIds = (jsonResponseArray.length)-1;
 		var faceIdArray = "["
@@ -69,7 +70,6 @@ app.get('/face', function(req,res) {
 		//options for the request 
 		const options = {
 			uri: uriBase+"/identify",
-			qs: params,
 			body: '{"faceIds":'+ faceIdArray +',"personGroupId": "users"}',
 			headers: {
 				'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ app.get('/face', function(req,res) {
 			}
 			let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
 			let jsonResponseArray = JSON.parse(body)
-			//res.send(jsonResponse);
+			//res.send(jsonResponseArray);
 
 			var nPersons = jsonResponseArray.length;
 			let personsArray= new Array();
@@ -100,35 +100,28 @@ app.get('/face', function(req,res) {
 					y++;
 				}
 			}
-			console.log(personsArray)
-			//for(var j = 0; j < nIds; j++){
-
-				//options for the request 
-				const options = {
-					uri: uriBase+"/persongroups/users/persons/" + personsArray[0],
-					qs: params,
-					headers: {
-						'Content-Type': 'application/json',
-						'Ocp-Apim-Subscription-Key' : subscriptionKey
-					}
-				};
-				
-
-				request.post(options, (error, response, body) => {
-					if (error) {
-					console.log('Error: ', error);
-					return;
-					}
-					let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
-					let jsonResponseArray = JSON.parse(body)
-					console.log(jsonResponseArray.length)
-					res.send(jsonResponse);
-				});
-			//}
+			res.send(personsArray)
 	    });
 	});  
 });
 
-
+app.get('/person', function(req,res) {
+	//options for the request 
+	const options = {
+		uri: uriBase+"/persongroups/users/persons/" +req.query.faceId,
+		headers: {
+			'Ocp-Apim-Subscription-Key' : subscriptionKey
+		}
+	};
+	request.get(options, (error, response, body) => {
+		if (error) {
+		console.log('Error: ', error);
+		return;
+		}
+		let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+		let jsonResponseArray = JSON.parse(body)
+		res.send(jsonResponseArray);
+	});
+})
 //https://www.larepublica.net/storage/images/2018/02/21/201802210902310.facebook-sele.jpg
 //https://ep01.epimg.net/especiais/2018/copa-do-mundo/img/selecciones/costa-rica.jpg

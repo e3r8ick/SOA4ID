@@ -18,6 +18,8 @@ function setup-swarm {
   echo '·· iniciando el swarm  >>>> ··'
   echo '···························'
 
+  docker-machine env manager
+
   eval $(docker-machine env manager)
 
   echo '···························'
@@ -44,6 +46,8 @@ function setup-swarm {
   docker run -d -p 5003:3001 darkventus/users-service
 
   docker run -d -p 5004:3002 darkventus/sports-service
+
+  docker run -d -p 5005:3006 darkventus/face-service
 }
 
 function main {

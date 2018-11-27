@@ -47,9 +47,86 @@ app.get('/face', function(req,res) {
 		  console.log('Error: ', error);
 		  return;
 		}
-		let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
-		res.send(jsonResponse);
-	  });
+		//let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+		let jsonResponseArray = JSON.parse(body)
+		//console.log(jsonResponseArray.length)
+		//res.send(jsonResponse);
+
+		var nIds = (jsonResponseArray.length)-1;
+		var faceIdArray = "["
+	
+		for(var i = 0; i < nIds; i++){
+			if(i+1 == nIds){
+				faceIdArray += '"'+ jsonResponseArray[i]['faceId']+ '"';
+				faceIdArray += "]";
+			}else{
+				faceIdArray += '"'+ jsonResponseArray[i]['faceId'] +'"';
+				faceIdArray += ",";
+			}
+		}
+		//console.log(faceIdArray);
+
+		//options for the request 
+		const options = {
+			uri: uriBase+"/identify",
+			qs: params,
+			body: '{"faceIds":'+ faceIdArray +',"personGroupId": "users"}',
+			headers: {
+				'Content-Type': 'application/json',
+				'Ocp-Apim-Subscription-Key' : subscriptionKey
+			}
+		};
+		//console.log(options);
+		// request to the FACE API
+		request.post(options, (error, response, body) => {
+			if (error) {
+			  console.log('Error: ', error);
+			  return;
+			}
+			let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+			let jsonResponseArray = JSON.parse(body)
+			//res.send(jsonResponse);
+
+			var nPersons = jsonResponseArray.length;
+			let personsArray= new Array();
+			var y = 0;
+			
+			for(var z =1; z < nPersons; z++){
+				//console.log(jsonResponseArray[z]['candidates'].length);
+				//console.log(jsonResponseArray[z]['candidates']);
+				if(jsonResponseArray[z]['candidates'].length == 1){
+					personsArray[y]  = jsonResponseArray[z]['candidates'][0]['personId'];
+					//console.log( jsonResponseArray[z]['candidates'][0]['personId']);
+					y++;
+				}
+			}
+			console.log(personsArray)
+			//for(var j = 0; j < nIds; j++){
+
+				//options for the request 
+				const options = {
+					uri: uriBase+"/persongroups/users/persons/" + personsArray[0],
+					qs: params,
+					headers: {
+						'Content-Type': 'application/json',
+						'Ocp-Apim-Subscription-Key' : subscriptionKey
+					}
+				};
+				
+
+				request.post(options, (error, response, body) => {
+					if (error) {
+					console.log('Error: ', error);
+					return;
+					}
+					let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
+					let jsonResponseArray = JSON.parse(body)
+					console.log(jsonResponseArray.length)
+					res.send(jsonResponse);
+				});
+			//}
+	    });
+	});  
 });
 
 
